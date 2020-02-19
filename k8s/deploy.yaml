@@ -1,28 +1,27 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: sam-blackberry-api
+  name: cms
 spec:
   type: ClusterIP
   selector:
-    app: sam-blackberry-api
+    app: cms
   ports:
     - name: nodejs
-      port: 3000
+      port: 3002
       targetPort: nodejs
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: sam-endpoint
+  name: cms
   labels:
     app: endpoint
 data:
   config.js: |-
     module.exports = {
         endpoint : {
-            account: "http://localhost:8080/",
-            cms: "http://sam-cranberry-cms:8080/"
+            mongodb: "mongodb://mongovc-s/berries",
         }
     }
 
@@ -30,26 +29,26 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: sam-blackberry-api-v1
+  name: cms-v1
   labels:
-    app: sam-blackberry-api
+    app: cms
     version: v1
 spec:
   selector:
     matchLabels:
-      app: sam-blackberry-api
+      app: cms
       version: v1
   replicas: 1
   template:
     metadata:
-      name: sam-blackberry-api
+      name: cms
       labels:
-        app: sam-blackberry-api
+        app: cms
         version: v1
     spec:
       containers:
-        - name: sam-blackberry-api
-          image: myguddy/sam-blackberry-api:v1
+        - name: cms-v1
+          image: g3.skb:8500/btv/cms-v1:latest
           imagePullPolicy: Always
           volumeMounts:
           - name: app-config
@@ -57,18 +56,30 @@ spec:
             subPath: "config.js"
           ports:
           - name: nodejs
-            containerPort: 3000
+            containerPort: 3002
           resources:
             requests:
+              cpu: 200m
+              memory: 300Mi
+            limits:
               cpu: 300m
               memory: 500Mi
-            limits:
-              cpu: 1000m
-              memory: 2048Mi
+          livenessProbe:
+            httpGet:
+              path: /
+              port: nodejs
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /
+              port: nodejs
+            initialDelaySeconds: 1
+            periodSeconds: 3
       volumes:
       - name: app-config
         configMap:
-          name: sam-endpoint
+          name: cms
           items:
           - key: config.js
             path: config.js
