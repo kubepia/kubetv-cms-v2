@@ -1,5 +1,7 @@
+let endpoint = require("../config").endpoint;
+
 let mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost/berries", { useNewUrlParser: true });
+mongoose.connect(endpoint.mongodb, { useNewUrlParser: true });
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
@@ -62,11 +64,19 @@ class ContentService {
             );
         });
     };
-    getMoviesByCategory = (category,no = 0) => {
+    getMoviesByCategory = (category,include,no = 0) => {
         const _movies = this.movies;
+        let condition;
+        if(!!include){
+            condition = category
+        }else{
+            condition = {
+                $ne: category
+            }
+        }
         return new Promise((resolve, reject) => {
             _movies.find(
-                {category:category},
+                {category:condition},
                 null,
                 {
                     skip: no * pageSize,
@@ -81,6 +91,7 @@ class ContentService {
             );
         });
     };
+    
     getOfferings = () => {
         const _movies = this.movies;
         return new Promise((resolve, reject) => {

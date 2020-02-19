@@ -23,8 +23,16 @@ router.get("/best/:category", function(req, res, next) {
         res.json(data);
     });
 });
+router.get("/content/:page/:category/:include", function(req, res, next) {
+    let include = req.params.include === 'f' ? false : true
+    contentservice.getMoviesByCategory(req.params.category,include,req.params.page)
+    .then(data=>{
+        logger(`get ${data.length} data of ${req.params.category}`)
+        res.json(data);
+    });
+});
 router.get("/content/:page/:category", function(req, res, next) {
-    contentservice.getMoviesByCategory(req.params.category,req.params.page)
+    contentservice.getMoviesByCategory(req.params.category,true,req.params.page)
     .then(data=>{
         logger(`get ${data.length} data of ${req.params.category}`)
         res.json(data);
