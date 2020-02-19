@@ -6,6 +6,7 @@ db.once("open", function() {
     console.log("mongo connected !");
 });
 const pageSize = 50;
+const carouselSize = 15;
 var _movieSchema = new mongoose.Schema({
     _id: mongoose.ObjectId,
     id: Number,
@@ -42,6 +43,25 @@ class ContentService {
             );
         });
     };
+    getBestByCategory = (category) => {
+        const _movies = this.movies;
+        return new Promise((resolve, reject) => {
+            _movies.find(
+                {category:category},
+                null,
+                {
+                    skip: 0,
+                    limit: carouselSize,
+                    sort: {
+                        like: -1
+                    }
+                },
+                (err, docs) => {
+                    resolve(docs);
+                }
+            );
+        });
+    };
     getMoviesByCategory = (category,no = 0) => {
         const _movies = this.movies;
         return new Promise((resolve, reject) => {
@@ -52,7 +72,7 @@ class ContentService {
                     skip: no * pageSize,
                     limit: pageSize,
                     sort: {
-                        id: 1
+                        like: -1
                     }
                 },
                 (err, docs) => {
@@ -75,9 +95,9 @@ class ContentService {
                     }
                 },
                 (err, docs) => {
-                    docs.forEach(e=>{
-                        e.membership = false
-                    })
+                    // docs.forEach(e=>{
+                    //     e.membership = false
+                    // })
                     resolve(docs);
                 }
             );
