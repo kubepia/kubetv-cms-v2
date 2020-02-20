@@ -21,7 +21,7 @@ data:
   config.js: |-
     module.exports = {
         endpoint : {
-            mongodb: "mongodb://mongo-svc.btv-backing/berries",
+            mongodb: "mongodb://mongo.btv-backing/berries",
         }
     }
 
