@@ -47,7 +47,7 @@ spec:
         version: v2
     spec:
       containers:
-        - name: cms-v1
+        - name: cms-v2
           image: g3.skb:8500/btv/cms-v2:latest
           imagePullPolicy: Always
           volumeMounts:
