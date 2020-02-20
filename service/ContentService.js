@@ -19,7 +19,7 @@ var _movieSchema = new mongoose.Schema({
     summary: String,
     like: Number,
     image: String,
-    membership: Boolean
+    membership: Number
 });
 class ContentService {
     constructor() {

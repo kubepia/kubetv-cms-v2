@@ -7,7 +7,7 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "cms-v1",
+            "name": "cms-v2",
             "skipFiles": [
                 "<node_internals>/**"
             ],
