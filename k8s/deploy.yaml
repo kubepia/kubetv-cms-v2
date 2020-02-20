@@ -21,7 +21,7 @@ data:
   config.js: |-
     module.exports = {
         endpoint : {
-            mongodb: "mongodb://mongo-svc/berries",
+            mongodb: "mongodb://mongo-svc.btv-backing/berries",
         }
     }
 
@@ -29,26 +29,26 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cms-v1
+  name: cms-v2
   labels:
     app: cms
-    version: v1
+    version: v2
 spec:
   selector:
     matchLabels:
       app: cms
-      version: v1
+      version: v2
   replicas: 1
   template:
     metadata:
       name: cms
       labels:
         app: cms
-        version: v1
+        version: v2
     spec:
       containers:
         - name: cms-v1
-          image: g3.skb:8500/btv/cms-v1:latest
+          image: g3.skb:8500/btv/cms-v2:latest
           imagePullPolicy: Always
           volumeMounts:
           - name: app-config
