@@ -5,7 +5,7 @@ let contentservice = require("../service/ContentService");
 
 logger = (msg)=>{
     let date = new Date();
-    console.log(`[sam-cranberry-cms] ${date.toGMTString()}-${msg}`);
+    console.log(`[sam-cranberry-cms-v2] ${date.toGMTString()}-${msg}`);
 }
 
 /* GET home page. */
@@ -40,6 +40,7 @@ router.get("/content/:page/:category", function(req, res, next) {
 });
 
 router.get("/offering", function(req, res, next) {
+    logger(`Header: ${JSON.stringify(req.headers)}`)
     contentservice.getOfferings()
     .then(data=>{
         logger(`get ${data.length} offering data`)
