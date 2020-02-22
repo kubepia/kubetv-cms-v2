@@ -96,7 +96,7 @@ class ContentService {
         const _movies = this.movies;
         return new Promise((resolve, reject) => {
             _movies.find(
-                {membership:true},
+                {membership:1},
                 null,
                 {
                     // skip: no * pageSize,
