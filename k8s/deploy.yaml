@@ -10,7 +10,7 @@ spec:
   selector:
     app: cms
   ports:
-    - name: nodejs
+    - name: http
       port: 3002
       targetPort: nodejs
 ---
