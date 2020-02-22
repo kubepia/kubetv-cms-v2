@@ -3,12 +3,12 @@ kind: Service
 metadata:
   name: cms-svc
   labels:
-    app: cms
-    service: cms
+    app: cms-svc
+    service: cms-svc
 spec:
   type: ClusterIP
   selector:
-    app: cms
+    app: cms-svc
   ports:
     - name: nodejs
       port: 3002
@@ -34,19 +34,19 @@ kind: Deployment
 metadata:
   name: cms-v2
   labels:
-    app: cms
+    app: cms-svc
     version: v2
 spec:
   selector:
     matchLabels:
-      app: cms
+      app: cms-svc
       version: v2
   replicas: 1
   template:
     metadata:
-      name: cms
+      name: cms-svc
       labels:
-        app: cms
+        app: cms-svc
         version: v2
     spec:
       containers:
