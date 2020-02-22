@@ -3,7 +3,15 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.status(200).send('sam-cranberry-cms-v1');
+  res.status(200)
+      .type("html")
+      .send("cms-v2");
+});
+
+router.get("/health", function(req, res, next) {
+  res.status(200)
+      .type("html")
+      .send("cms-v2");
 });
 
 module.exports = router;
