@@ -1,5 +1,5 @@
 module.exports = {
-    endpoint :{
-        mongodb: "mongodb://localhost/berries",
-    }
-}
+	endpoint: {
+		mongodb: "mongodb://localhost/kubetv"
+	}
+};

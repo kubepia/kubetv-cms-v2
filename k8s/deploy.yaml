@@ -33,7 +33,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cms-v2
-  namespace: btv-backing
   labels:
     app: cms
     version: v2
@@ -52,15 +51,15 @@ spec:
     spec:
       containers:
         - name: cms-v2
-          image: g3.skb:8500/btv-backing/cms-v2:latest
+          image: kubepia/kubetv-cms-v2:latest
           imagePullPolicy: Always
           volumeMounts:
-          - name: app-config
-            mountPath: /app/config.js
-            subPath: "config.js"
+            - name: app-config
+              mountPath: /app/config.js
+              subPath: "config.js"
           ports:
-          - name: nodejs
-            containerPort: 3002
+            - name: nodejs
+              containerPort: 3002
           resources:
             requests:
               cpu: 300m
@@ -81,10 +80,9 @@ spec:
             initialDelaySeconds: 5
             periodSeconds: 5
       volumes:
-      - name: app-config
-        configMap:
-          name: cms
-          items:
-          - key: config.js
-            path: config.js
-            
+        - name: app-config
+          configMap:
+            name: cms
+            items:
+              - key: config.js
+                path: config.js
